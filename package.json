@@ -1,0 +1,10 @@
+{
+    "name": "apigateway-config-example",
+    "devDependencies": {
+        "@types/node": "^14"
+    },
+    "dependencies": {
+        "@pulumi/google-native": "^0.7.0",
+        "@pulumi/pulumi": "^3.1.0"
+    }
+}
