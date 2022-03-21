@@ -1,3 +1,4 @@
 name: apigateway-config-example
 runtime: nodejs
 description: A minimal Google Cloud TypeScript Pulumi program
+main: pulumi-native/

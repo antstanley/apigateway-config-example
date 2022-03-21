@@ -1,10 +1,7 @@
 import * as API from '@pulumi/google-native/apigateway/v1'
-import * as pulumi from '@pulumi/pulumi'
-import { fetchOpenAPISpec } from './fetchOpenAPISpec'
+import { fetchOpenAPISpec } from '../shared/fetchOpenAPISpec'
 
-const config = new pulumi.Config('google-native')
-
-const apiId = 'example-api-id'
+const apiId = 'pulumi-native-api-id'
 const apiOptions: API.ApiArgs = {
   apiId,
   location: 'global'
@@ -12,11 +9,11 @@ const apiOptions: API.ApiArgs = {
 
 const api = new API.Api(apiId, apiOptions)
 
-const openApiDocPath = './example-openapi.yaml'
+const openApiDocPath = '../shared/example-openapi.yaml'
 
 const openApiDoc = fetchOpenAPISpec(openApiDocPath)
 
-const apiConfigId = 'example-api-config-id'
+const apiConfigId = 'pulumi-native-api-config-id'
 
 const apiConfigOptions: API.ConfigArgs = {
   apiId,
@@ -29,18 +26,22 @@ const apiConfigOptions: API.ConfigArgs = {
       }
     }
   ],
-  location: 'global',
+  location: 'global'
 }
 
-const apiConfig = new API.Config(apiConfigId, apiConfigOptions, { dependsOn: [api] })
+const apiConfig = new API.Config(apiConfigId, apiConfigOptions, {
+  dependsOn: [api]
+})
 
+const gatewayId = 'pulumi-native-gateway-id'
 
-const gatewayId = 'example-gateway-id'
 const gatewayOptions: API.GatewayArgs = {
   apiConfig: apiConfig.name,
-  gatewayId,
+  gatewayId
 }
 
-const gateway = new API.Gateway(gatewayId, gatewayOptions, { dependsOn: [apiConfig] })
+const gateway = new API.Gateway(gatewayId, gatewayOptions, {
+  dependsOn: [apiConfig]
+})
 
 export { api, apiConfig, gateway }
